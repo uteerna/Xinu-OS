@@ -1,1 +1,6 @@
+Q1. What is Orphan and Zombie process?
+A process whose parent process has either terminated or finished without waiting for the child process to complete its execution is known as an orphan process. The orphan process can be located and killed using the kill -9 pid command.
 
+A process which has an entry in the process table even after its execution is over is known as a Zombie process. It continues to be a zombie process till its entry is found in the process table. The parent process reads the entry of the finished child process using the wait() system call before exiting, this process is known as reaping. The zombie process can be terminated either when the parent calls wait() or when the parent itself terminates.
+
+Q2. What are the changes that occur when the child process calls the exec system call to execute a new program?
