@@ -4,15 +4,13 @@
 #include <string.h>
 #include <stdio.h>
 
-/*------------------------------------------------------------------------
- * xsh_hello - check if there are one or more arguments in the prompt
- *------------------------------------------------------------------------
+/*------------------------------------------------------------------------------------------------------------------
+ * xsh_hello - check if there are one or more arguments in the prompt, if there are 2 then print the welcome string
+ *------------------------------------------------------------------------------------------------------------------
  */ 
 shellcmd xsh_hello(int nargs, char *args[]) {
 
-	//int32	retval;			/* return value			*/
-	//uint32	now;			/* current local time		*/
-	char	welstr[64];		/* printable date in ascii	*/
+	char welstr[60] = "Hello";  /* For storing the welcome string */
 
 	/* Output info for '--help' argument */
 
@@ -22,6 +20,7 @@ shellcmd xsh_hello(int nargs, char *args[]) {
 	}
 
 	/* Check argument count */
+	/* If the argumnet count is greater than 2 then return the error message "too many arguments" */
 
 	if (nargs > 2) {
 		fprintf(stderr, "%s: too many arguments\n", args[0]);
@@ -29,6 +28,8 @@ shellcmd xsh_hello(int nargs, char *args[]) {
 			args[0]);
 		return 1;
 	}
+					
+	/* If the argument count is less than 2 then returnt the error message "too few arguments" */
 	
 	if (nargs < 2) {
 		fprintf(stderr, "%s: too few arguments\n", args[0]);
@@ -36,10 +37,12 @@ shellcmd xsh_hello(int nargs, char *args[]) {
 			args[0]);
 		return 1;
 	}
+	
+	/* If the argument count is 2 then print the welcome string "Hello <string>, Welcome to the world of Xiny!!" */
 
 	if (nargs == 2) {
-		printf("Hello %s",args[1]);
+		printf("%s %s", welstr, args[1]);
 		printf(", Welcome to the world of Xinu!!\n");
-		return 0;
+		return(0);
 	}
 }
