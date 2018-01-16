@@ -4,3 +4,4 @@ A process whose parent process has either terminated or finished without waiting
 A process which has an entry in the process table even after its execution is over is known as a Zombie process. It continues to be a zombie process till its entry is found in the process table. The parent process reads the entry of the finished child process using the wait() system call before exiting, this process is known as reaping. The zombie process can be terminated either when the parent calls wait() or when the parent itself terminates.
 
 Q2. What are the changes that occur when the child process calls the exec system call to execute a new program?
+When the child process calls the exec system call then the current child process would be interupted by the new exec function ie. the current running process is replaced by the new process image.
