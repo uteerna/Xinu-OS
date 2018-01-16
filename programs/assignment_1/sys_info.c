@@ -27,7 +27,7 @@ int main(int nargs, char *args[])
 		cmd_name = &string[5];
 		if(strcmp("echo", cmd_name)==0)
 		{
-			execl(args[1], string,"Hello World!", NULL);
+			execl(args[1], string, "Hello World!", NULL);
 		}
 		else
 		{
