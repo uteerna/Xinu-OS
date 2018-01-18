@@ -39,7 +39,7 @@ int main(int nargs, char *args[])
 			execl(args[1], string, "Hello World!", NULL);
 		}
 		
-		/* Executing the other commands usign execl */
+		/* Executing the other commands using execl */
 
 		else
 		{
