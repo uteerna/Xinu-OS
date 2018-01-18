@@ -22,7 +22,7 @@ int main(int nargs, char *args[])
 		printf("Parent PID = %d\n", getpid());
 		close(fd[0]);
 		write(fd[1], args[1], strlen(args[1]));		/* Writing the string to the input file descriptor */
-		wait(NULL);	
+		wait(&child_pid);	
 	}
 
 	else if (child_pid == 0)
@@ -31,7 +31,7 @@ int main(int nargs, char *args[])
 		read(fd[0], string, sizeof(string));		/* Reading the string from the output file descriptor */
 		printf("Child PID = %d\n", getpid);
 		cmd_name = &string[5];
-		
+							
 		/* Executing the echo command using execl */
 
 		if(strcmp("echo", cmd_name)==0)
