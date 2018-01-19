@@ -30,7 +30,7 @@ int main(int nargs, char *args[])
 		close(fd[1]);
 		read(fd[0], string, sizeof(string));		/* Reading the string from the output file descriptor */
 		printf("Child PID = %d\n", getpid);
-		cmd_name = &string[5];
+		cmd_name = &string[5];				/* Fetching the command */
 							
 		/* Executing the echo command using execl */
 
