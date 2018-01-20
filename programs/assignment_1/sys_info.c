@@ -8,29 +8,29 @@
 #include<sys/wait.h>
 int main(int nargs, char *args[])
 {
-	pid_t child_pid; 		/* Child process */
-	int fd[2];			/* File descriptors */
-	char string[50];		/* command to be executed */
-	char *cmd_name;
-	pipe(fd);			/* Create a pipe */
-	child_pid = fork();		/* Fork the new child process */
+	pid_t child_pid; 						/* Child process */
+	int fd[2];							/* File descriptors */
+	char string[50];						/* command to be executed */
+	char *cmd_name;			
+	pipe(fd);							/* Create a pipe */
+	child_pid = fork();						/* Fork the new child process */
 
 	/* Checking if the child process is created or not */
 
-	if (child_pid > 0)		
-	{
+	if (child_pid > 0)						/* Fork returns a non-zero value to indicate the child PID to the parent */
+	{	
 		printf("Parent PID = %d\n", getpid());
 		close(fd[0]);
-		write(fd[1], args[1], strlen(args[1]));		/* Writing the string to the input file descriptor */
+		write(fd[1], args[1], strlen(args[1]));			/* Writing the string to the input file descriptor */
 		wait(&child_pid);	
 	}
 
-	else if (child_pid == 0)
+	else if (child_pid == 0)					/* When the child process is created it returns 0 */
 	{
 		close(fd[1]);
-		read(fd[0], string, sizeof(string));		/* Reading the string from the output file descriptor */
+		read(fd[0], string, sizeof(string));			/* Reading the string from the output file descriptor */
 		printf("Child PID = %d\n", getpid);
-		cmd_name = &string[5];				/* Fetching the command */
+		cmd_name = &string[5];					/* Fetching the command */
 							
 		/* Executing the echo command using execl */
 
@@ -46,6 +46,11 @@ int main(int nargs, char *args[])
 			execl(args[1], string, 0, NULL);
 		}
 		exit(0);
+	}
+	
+	else								/* In case the fork fails then it would return -1 */
+	{
+		printf("Cannot create child process, the parent PID is = %d\n",getpid());
 	}		
 	return (0);
 }
