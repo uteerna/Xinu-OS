@@ -4,6 +4,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<prototypes.h>
+#include<ctype.h>
+#include<string.h>
+#include<limits.h>
 extern volatile int inbox[64];
 extern volatile int value;
 extern volatile sid32 sem[64];
