@@ -1,3 +1,4 @@
+/* Run the program using: process_ring -p process_count -r round_count -i implementation */
 #include<process_ring.h>
 volatile int inbox[64];
 volatile sid32 sem[64];
@@ -19,7 +20,7 @@ shellcmd xsh_process_ring(int argc, char *argv[])
 		{	
 			if((i+1) >= argc)
 			{
-				printf("The arguments passed are less than the required\n");
+				printf("\nThe arguments passed are less than the required\n");
 				return SHELL_ERROR;
 
  			}
@@ -43,7 +44,7 @@ shellcmd xsh_process_ring(int argc, char *argv[])
 
 			if (!(r_count > 0 && r_count <= UINT_MAX))
 			{	
-				printf("-r expected an argument between 1 and UINT_MAX\n");
+				printf("-\nr expected an argument between 1 and UINT_MAX\n");
 				return SHELL_ERROR;
 			
 			}
@@ -55,7 +56,7 @@ shellcmd xsh_process_ring(int argc, char *argv[])
 		{
 			if ((i+1) >= argc)
 			{
-				printf("The arguments passed are less than the required\n");
+				printf("\nThe arguments passed are less than the required\n");
 				return SHELL_ERROR;
 			}
 		       
@@ -73,13 +74,13 @@ shellcmd xsh_process_ring(int argc, char *argv[])
 					
 			if (p_count == 0) // In case atoi fails then it returns an error
 			{
-				printf("-p expects an argument\n");
+				printf("\n-p expects an argument\n");
 				return SHELL_ERROR;
 			}	
 
 			if (!(p_count > 0 && p_count <= 64))
 			{
-				printf("-p expected an argument between 1 and 64\n");
+				printf("\n-p expected an argument between 1 and 64\n");
 				return SHELL_ERROR;
 			}
 			i += 1;
@@ -97,7 +98,7 @@ shellcmd xsh_process_ring(int argc, char *argv[])
 			return SHELL_OK;
 		}
 		 
-		/* Setting a random variable method to 0 for polling and 1 for semaphores */
+		/* Setting a variable method to 0 for polling and 1 for semaphores */
 		if ((strncmp("-i", argv[i], 3)==0) || (strncmp("--i", argv[i], 4)==0))
 		{
 			if (strncmp("poll", argv[i+1], 5) == 0)
@@ -120,7 +121,7 @@ shellcmd xsh_process_ring(int argc, char *argv[])
 		}
 	}
 	
-	inbox[0] = (p_count * r_count) - 1;
+	inbox[0] = (p_count * r_count) - 1; // Calculating the first inbox value
 	value = inbox[0];
 	
 	printf("\nNumber of processes: %d", p_count);
@@ -128,7 +129,7 @@ shellcmd xsh_process_ring(int argc, char *argv[])
 
 	for (j = 0; j < p_count; j++)
 	{
-		sem[j] = semcreate(0);
+		sem[j] = semcreate(0); // Create a semaphore
 	}
 
 	gettime(&starttime); // Start the time

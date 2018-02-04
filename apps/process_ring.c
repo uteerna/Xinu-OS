@@ -29,11 +29,11 @@ process sync(int p_id, int p_count, int r_count)
 			printf("\nRing element %d : Round %d : Value : %d", p_id, i, inbox[p_id]);
 			last_printed_value = inbox[p_id];
 			inbox[(p_id + 1) % p_count] = inbox[p_id] - 1;			
-			signal(sem[(p_id + 1) % p_count]);
+			signal(sem[(p_id + 1) % p_count]); // Signal the next process that the inbox value is updated
 			i++;
 		}
 	}
-	signal(complete_sem);
+	signal(complete_sem); // Keep the parent alive till the child does not complete its execution
 	return SHELL_OK;
 }
 
