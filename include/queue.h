@@ -14,7 +14,7 @@
 
 struct	qentry	{		/* One per process plus two per list	*/
 	int32	qkey;		/* Key on which the queue is ordered	*/
-	pid32   qid;
+	pid32   pid;
 	struct 	qentry* qnext;
 	struct 	qentry* qprev;
 };
