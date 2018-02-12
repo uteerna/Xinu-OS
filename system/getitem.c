@@ -22,7 +22,7 @@ pid32	getfirst(
 	}
 
 	head = queuehead(q);
-	return getitem((queuetab[head].qnext)->pid);
+	return getitem(queuetab[head].qnext);
 }
 
 /*------------------------------------------------------------------------
@@ -45,7 +45,7 @@ pid32	getlast(
 	}
 
 	tail = queuetail(q);
-	return getitem((queuetab[tail].qprev)->pid);
+	return getitem(queuetab[tail].qprev);
 }
 
 /*------------------------------------------------------------------------
@@ -60,12 +60,11 @@ pid32	getitem(
 		return SYSERR;
 	}
 
-	struct qentry* prev;
-	struct qentry* next;
+	pid32   prev, next;
 
-	next = queuetab[pid].qnext;	/* Following node in list	*/
-	prev = queuetab[pid].qprev;	/* Previous node in list	*/
-	next -> qprev = prev;
-	prev ->qnext = next;
+        next = queuetab[pid].qnext;     /* Following node in list       */
+        prev = queuetab[pid].qprev;     /* Previous node in list        */
+        queuetab[prev].qnext = next;
+        queuetab[next].qprev = prev;
 	return pid;
 }
