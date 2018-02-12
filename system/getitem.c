@@ -12,13 +12,17 @@ pid32	getfirst(
 					/*   valid with no check)	*/
 {
 	pid32	head;
+	
+	if(isbadqid(q)) {
+		return SYSERR;
+	}
 
 	if (isempty(q)) {
 		return EMPTY;
 	}
 
 	head = queuehead(q);
-	return getitem(queuetab[head].qnext);
+	return getitem((queuetab[head].qnext)->pid);
 }
 
 /*------------------------------------------------------------------------
@@ -31,13 +35,17 @@ pid32	getlast(
 					/*   valid with no check)	*/
 {
 	pid32 tail;
+	
+	if(isbadqid(q)) {		/* Check if the QID is valid or not */
+		return SYSERR;
+	}
 
-	if (isempty(q)) {
+	if (isempty(q)) {		/* Check if the queue is empty */
 		return EMPTY;
 	}
 
 	tail = queuetail(q);
-	return getitem(queuetab[tail].qprev);
+	return getitem((queuetab[tail].qprev)->pid);
 }
 
 /*------------------------------------------------------------------------
@@ -48,11 +56,16 @@ pid32	getitem(
 	  pid32		pid		/* ID of process to remove	*/
 	)
 {
-	pid32	prev, next;
+	if(isbadqid(pid)) {
+		return SYSERR;
+	}
+
+	struct qentry* prev;
+	struct qentry* next;
 
 	next = queuetab[pid].qnext;	/* Following node in list	*/
 	prev = queuetab[pid].qprev;	/* Previous node in list	*/
-	queuetab[prev].qnext = next;
-	queuetab[next].qprev = prev;
+	next -> qprev = prev;
+	prev ->qnext = next;
 	return pid;
 }
