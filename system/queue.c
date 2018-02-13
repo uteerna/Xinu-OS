@@ -13,20 +13,21 @@ pid32	enqueue(
 	  qid16		q		/* ID of queue to use		*/
 	)
 {
-	struct qentry* tail; 
-	struct qentry* prev;		
+	struct qentry *tail; 
+	struct qentry *prev;		
 	
 	if (isbadqid(q) || isbadpid(pid)) {
 		return SYSERR;
 	}
-
+	
 	tail = &queuetab[queuetail(q)];
 	prev = queuetab[tail->pid].qprev;
 
-	queuetab[tail->pid].qnext  = &queuetab[pid];	/* Insert just before tail node	*/
-	queuetab[pid].qnext  = &queuetab[tail->pid];
+	queuetab[pid].qnext  = tail;	/* Insert just before tail node	*/
 	queuetab[pid].qprev = prev;
+	queuetab[pid].pid = pid;
 	prev->qnext = &queuetab[pid];
+	tail->qprev = &queuetab[pid];
 	return pid;
 }
 
