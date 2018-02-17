@@ -29,8 +29,8 @@ extern	struct qentry	queuetab[];
 #define	lastid(q)	((queuetab[queuetail(q)].qprev)->pid)
 #define	isempty(q)	(firstid(q) >= NPROC)
 #define	nonempty(q)	(firstid(q) <  NPROC)
-#define	firstkey(q)	(queuetab[firstid(q)].qkey)
-#define	lastkey(q)	(queuetab[ lastid(q)].qkey)
+#define	firstkey(q)	(queuetab[queuehead(q)].qnext->qkey)
+#define	lastkey(q)	(queuetab[ queuetail(q)].qprev->qkey)
 
 /* Inline to check queue id assumes interrupts are disabled */
 

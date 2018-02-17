@@ -14,11 +14,13 @@ status	unsleep(
 {
 	intmask	mask;			/* Saved interrupt mask		*/
         struct	procent	*prptr;		/* Ptr to process' table entry	*/
+	struct qentry* curr;		/* Current is initially the head of sleepq */
+	struct qentry* pidnext;
 
-        pid32	pidnext;		/* ID of process on sleep queue	*/
+        //pid32	pidnext;		/* ID of process on sleep queue	*/
 					/*   that follows the process	*/
 					/*   which is being removed	*/
-
+	
 	mask = disable();
 
 	if (isbadpid(pid)) {
@@ -35,10 +37,20 @@ status	unsleep(
 	}
 
 	/* Increment delay of next process if such a process exists */
+	
+	curr = &queuetab[sleepq];
 
-	pidnext = queuetab[pid].qnext;
-	if (pidnext < NPROC) {
-		queuetab[pidnext].qkey += queuetab[pid].qkey;
+	while(pid != curr-> pid && curr != NULL)
+	{
+		curr = curr->qnext;
+	}
+
+	//pidnext = queuetab[pid].qnext;
+	pidnext = curr->qnext;
+
+	if (pidnext->pid < NPROC) {
+		//queuetab[pidnext].qkey += queuetab[pid].qkey;
+		pidnext->qkey += curr->qkey;
 	}
 
 	getitem(pid);			/* Unlink process from queue */

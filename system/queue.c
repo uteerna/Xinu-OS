@@ -14,20 +14,28 @@ pid32	enqueue(
 	)
 {
 	struct qentry *tail; 
-	struct qentry *prev;		
-	
+	struct qentry *prev;	
+	struct qentry *next;	
+	struct qentry *new_node;
+		
+	new_node = (struct qentry*)getmem(sizeof(struct qentry));
+	new_node->pid = pid;
 	if (isbadqid(q) || isbadpid(pid)) {
 		return SYSERR;
 	}
 	
 	tail = &queuetab[queuetail(q)];
-	prev = queuetab[tail->pid].qprev;
-
-	queuetab[pid].qnext  = tail;	/* Insert just before tail node	*/
-	queuetab[pid].qprev = prev;
-	queuetab[pid].pid = pid;
-	prev->qnext = &queuetab[pid];
-	tail->qprev = &queuetab[pid];
+	//prev = queuetab[tail->pid].qprev;
+	prev = tail->qprev;
+	new_node->qnext = tail;
+	tail->qprev=new_node;
+	new_node->qprev =  prev;
+	prev->qnext = new_node;
+	//queuetab[pid].qnext  = tail;	/* Insert just before tail node	*/
+	//queuetab[pid].qprev = prev;
+	//queuetab[pid].pid = pid;
+	//prev->qnext = &queuetab[pid];
+	//tail->qprev = &queuetab[pid];
 	return pid;
 }
 
@@ -44,11 +52,11 @@ pid32	dequeue(
 	if (isbadqid(q)) {
 		return SYSERR;
 	} else if (isempty(q)) {
-		return EMPTY;
+		return NULL;
 	}
 
 	pid = getfirst(q);
-	queuetab[pid].qprev = NULL;
-	queuetab[pid].qnext = NULL;
+	//queuetab[pid].qprev = NULL;
+	//queuetab[pid].qnext = NULL;
 	return pid;
 }
