@@ -58,20 +58,21 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
  *  resched_cntl  -  Control whether rescheduling is deferred or allowed
  *------------------------------------------------------------------------
  */
-status	resched_cntl(		/* Assumes interrupts are disabled	*/
-	  int32	defer		/* Either DEFER_START or DEFER_STOP	*/
+
+status	resched_cntl(		// Assumes interrupts are disabled	
+	  int32	defer		// Either DEFER_START or DEFER_STOP	
 	)
 {
 	switch (defer) {
 
-	    case DEFER_START:	/* Handle a deferral request */
+	    case DEFER_START:	// Handle a deferral request 
 
 		if (Defer.ndefers++ == 0) {
 			Defer.attempt = FALSE;
 		}
 		return OK;
 
-	    case DEFER_STOP:	/* Handle end of deferral */
+	    case DEFER_STOP:	// Handle end of deferral 
 		if (Defer.ndefers <= 0) {
 			return SYSERR;
 		}
