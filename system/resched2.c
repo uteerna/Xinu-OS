@@ -30,7 +30,7 @@ void    resched2(
 
         ptold = &proctab[currpid];
 
-        if (ptold->prstate == PR_CURR) {  /* Process remains eligible */
+        if (ptold->prstate == PR_CURR || ptold->prstate == PR_READY) {  /* Process remains eligible */
                 if (ptold->prprio > firstkey(readylist)) {
                         return;
                 }
@@ -65,7 +65,7 @@ void    resched2(
 
 /*------------------------------------------------------------------------
  *
- * *  resched_cntl  -  Control whether rescheduling is deferred or allowed
+ * *  resched_cnt2  -  Control whether rescheduling is deferred or allowed
  *  *------------------------------------------------------------------------
  *   */
 
