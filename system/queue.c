@@ -15,7 +15,7 @@ pid32	enqueue(
 {
 	struct qentry *tail; 
 	struct qentry *prev;	
-	struct qentry *next;	
+	//struct qentry *next;	
 	struct qentry *new_node;	/* Create a new node */
 		
 	new_node = (struct qentry*)getmem(sizeof(struct qentry));	/* Allocating the space to new node */
