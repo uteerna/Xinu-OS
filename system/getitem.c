@@ -12,8 +12,8 @@ pid32	getfirst(
 					/*   valid with no check)	*/
 {
 	pid32	head;
-	
-	if(isbadqid(q)) {
+
+	if(isbadqid(q)) {		/* Checking if the Queue ID is valid or not */
 		return SYSERR;
 	}
 
@@ -36,7 +36,7 @@ pid32	getlast(
 {
 	pid32 tail;
 	
-	if(isbadqid(q)) {		/* Check if the QID is valid or not */
+	if(isbadqid(q)) {		/* Checking if the Queue ID is valid or not */
 		return SYSERR;
 	}
 
@@ -56,7 +56,7 @@ pid32	getitem(
 	  pid32		pid		/* ID of process to remove	*/
 	)
 {
-	if(isbadqid(pid)) {
+	if(isbadqid(pid)) {		/* Checking if the Queue ID is valid is or not */
 		return SYSERR;
 	}
 
