@@ -29,8 +29,9 @@ void    resched2(
         /* Point to process table entry for the current (old) process */
 
         ptold = &proctab[currpid];
+	ptold->prstate = next_state;  /* Assigning the next_state to ptold */
 
-        if (ptold->prstate == PR_CURR || ptold->prstate == PR_READY) {  /* Process remains eligible */
+        if (next_state == PR_CURR || next_state == PR_READY) {  /* Process remains eligible - Checking if the next_state is CURR or READY */
                 if (ptold->prprio > firstkey(readylist)) {
                         return;
                 }
@@ -40,9 +41,7 @@ void    resched2(
                 ptold->prstate = PR_READY;
                 insert(currpid, readylist, ptold->prprio);
    	}
-	else {
- 		ptold->prstate = next_state;
-	}
+	
 
         /* Force context switch to highest priority ready process */
 
