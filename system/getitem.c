@@ -12,7 +12,7 @@ pid32	getfirst(
 					/*   valid with no check)	*/
 {
 	//pid32	head;
-	struct qentry* head;
+	struct qentry* head;	/* Creating a head pointer */
 	
 	if (isempty(q)) {
 		return EMPTY;
@@ -32,7 +32,7 @@ pid32	getlast(
 					/*   valid with no check)	*/
 {
 	//pid32 tail;
-	struct qentry* tail;
+	struct qentry* tail;	/* Creating a tail pointer */
 
 	if (isempty(q)) {
 		return EMPTY;
@@ -52,9 +52,9 @@ pid32	getitem(
 {
 	struct qentry* prev; 
 	struct qentry* next;
-	struct qentry* c_node; 		/*Holds thw value we get from newqueue */
+	struct qentry* c_node; 	
 
-	if(proctab[pid].prstate == PR_READY)
+	if(proctab[pid].prstate == PR_READY)	/* Checking in the ready queue */
 	{
 		c_node  = &queuetab[readylist];
 		while(c_node->pid != pid && c_node !=NULL)
@@ -62,7 +62,7 @@ pid32	getitem(
 			c_node = c_node->qnext;
 		}
 	}
-	if(proctab[pid].prstate == PR_SLEEP)
+	if(proctab[pid].prstate == PR_SLEEP)	/* Checking in the sleep queue */
 	{
 		c_node = &queuetab[sleepq];
 		while(c_node->pid != pid && c_node != NULL)
@@ -73,8 +73,9 @@ pid32	getitem(
 			
 	next = c_node->qnext;	/* Following node in list	*/
 	prev = c_node->qprev;	/* Previous node in list 	*/
-	next->qprev = prev;
-	prev->qnext = next;
-	freemem(c_node,sizeof(struct qentry));
+	
+	next->qprev = prev;	/* Points the previous of next node to prev */	
+	prev->qnext = next;	/* Points the next of previous to next */
+	freemem(c_node,sizeof(struct qentry));	/* Freeing the space occupied by the node which is to be deleted by the queue */
 	return pid;
 }

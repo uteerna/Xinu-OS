@@ -12,31 +12,32 @@ status	insert(
 	  int32		key		/* Key for the inserted process	*/
 	)
 {
-	struct qentry* curr;		/* Runs through items in a queue*/
-	struct qentry* prev;		/* Holds previous node index	*/
-	struct qentry* new_node;
+	struct qentry* curr;		/* Current node pointer*/
+	struct qentry* prev;		/* Previous node */
+	struct qentry* new_node;	/* New node to be inserted */
 	
-	new_node = (struct qentry*)getmem(sizeof(struct qentry));
+	new_node = (struct qentry*)getmem(sizeof(struct qentry));	/* Allocating the space to the new node */
 
 	if (isbadqid(q) || isbadpid(pid)) {
 		return SYSERR;
 	}
 
 	curr = &queuetab[queuehead(q)];
-	while (curr != NULL && curr -> qkey >= key) {
+	while (curr != NULL && curr -> qkey >= key) {	/* Checking till key of current is greater then the key*/
 		curr = curr->qnext;
-	}
+	}	
 
 	/* Insert process between curr node and previous node */
 	
 	new_node->pid = pid;
 	new_node->qkey = key;
 
-	prev = curr->qprev;	/* Get index of previous node	*/
+	prev = curr->qprev;	/* Get previous node	*/
 	new_node->qprev = prev;
 	prev->qnext = new_node;
 	new_node->qnext = curr;
 	curr->qprev = new_node;
+
 	//queuetab[pid].qnext = curr;
 	//queuetab[pid].qprev = prev;
 	//queuetab[pid].qkey = key;

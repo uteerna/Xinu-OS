@@ -16,21 +16,23 @@ pid32	enqueue(
 	struct qentry *tail; 
 	struct qentry *prev;	
 	struct qentry *next;	
-	struct qentry *new_node;
+	struct qentry *new_node;	/* Create a new node */
 		
-	new_node = (struct qentry*)getmem(sizeof(struct qentry));
-	new_node->pid = pid;
+	new_node = (struct qentry*)getmem(sizeof(struct qentry));	/* Allocating the space to new node */
+	new_node->pid = pid;	/* Set the pid of new node */
+
 	if (isbadqid(q) || isbadpid(pid)) {
 		return SYSERR;
 	}
 	
 	tail = &queuetab[queuetail(q)];
-	//prev = queuetab[tail->pid].qprev;
 	prev = tail->qprev;
 	new_node->qnext = tail;
 	tail->qprev=new_node;
 	new_node->qprev =  prev;
 	prev->qnext = new_node;
+
+	//prev = queuetab[tail->pid].qprev;
 	//queuetab[pid].qnext  = tail;	/* Insert just before tail node	*/
 	//queuetab[pid].qprev = prev;
 	//queuetab[pid].pid = pid;
@@ -55,7 +57,7 @@ pid32	dequeue(
 		return NULL;
 	}
 
-	pid = getfirst(q);
+	pid = getfirst(q);	
 	//queuetab[pid].qprev = NULL;
 	//queuetab[pid].qnext = NULL;
 	return pid;
