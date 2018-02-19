@@ -11,13 +11,13 @@ pid32	getfirst(
 	)				/* Remove a process (assumed	*/
 					/*   valid with no check)	*/
 {
-	//pid32	head;
 	struct qentry* head;	/* Creating a head pointer */
 	
 	if (isempty(q)) {
 		return EMPTY;
 	}
-
+	
+	/* Fetching the pid of the first node after head */
 	head = &queuetab[queuehead(q)];
 	return getitem((head->qnext)->pid);
 }
@@ -31,13 +31,13 @@ pid32	getlast(
 	)				/* Remove a process (assumed	*/
 					/*   valid with no check)	*/
 {
-	//pid32 tail;
 	struct qentry* tail;	/* Creating a tail pointer */
 
 	if (isempty(q)) {
 		return EMPTY;
 	}
 
+	/* Fetching pid of the last node before tail */
 	tail = &queuetab[queuetail(q)];
 	return getitem((tail->qprev)->pid);
 }
@@ -54,7 +54,7 @@ pid32	getitem(
 	struct qentry* next;
 	struct qentry* c_node; 	
 
-	if(proctab[pid].prstate == PR_READY)	/* Checking in the ready queue */
+	if(proctab[pid].prstate == PR_READY)	/* Checking for the process in the ready queue */
 	{
 		c_node  = &queuetab[readylist];
 		while(c_node->pid != pid && c_node !=NULL)
@@ -62,7 +62,7 @@ pid32	getitem(
 			c_node = c_node->qnext;
 		}
 	}
-	if(proctab[pid].prstate == PR_SLEEP)	/* Checking in the sleep queue */
+	if(proctab[pid].prstate == PR_SLEEP)	/* Checking for the process in the sleep queue */
 	{
 		c_node = &queuetab[sleepq];
 		while(c_node->pid != pid && c_node != NULL)
@@ -70,9 +70,10 @@ pid32	getitem(
 			c_node = c_node->qnext;
 		}
 	}
-			
-	next = c_node->qnext;	/* Following node in list	*/
-	prev = c_node->qprev;	/* Previous node in list 	*/
+
+	/* To remove a node */			
+	next = c_node->qnext;	/* Following node in list */
+	prev = c_node->qprev;	/* Previous node in list */
 	
 	next->qprev = prev;	/* Points the previous of next node to prev */	
 	prev->qnext = next;	/* Points the next of previous to next */

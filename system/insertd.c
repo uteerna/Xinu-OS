@@ -12,8 +12,6 @@ status	insertd(			/* Assumes interrupts disabled	*/
 	  int32		key		/* Delay from "now" (in ms.)	*/
 	)
 {
-	//int32	next;			/* Runs through the delta list	*/
-	//int32	prev;			/* Follows next through the list*/
 	struct qentry* new_node;
 	struct qentry* prev;
 	struct qentry* next;
@@ -24,25 +22,17 @@ status	insertd(			/* Assumes interrupts disabled	*/
 		return SYSERR;
 	}
 
-	prev = &queuetab[queuehead(q)];
-	next = queuetab[queuehead(q)].qnext;
+	prev = &queuetab[queuehead(q)]; /* Gives the reference to the head node */
+	next = queuetab[queuehead(q)].qnext; /* Gives the next node after the head */
+	
+	/*Searching for the position where the new node is to be inserted */
 	while ((next->pid != queuetail(q)) && (next->qkey <= key)) {
-		//key -= queuetab[next].qkey;
-		//prev = next;
-		//next = queuetab[next].qnext;
 		key -= next->qkey;
 		prev = next;
 		next = next->qnext;
 	}
 
-	/* Insert new node between prev and next nodes */
-
-	/*queuetab[pid].qnext = next;
-	queuetab[pid].qprev = prev;
-	queuetab[pid].qkey = key;
-	queuetab[prev].qnext = pid;
-	queuetab[next].qprev = pid; */
-		
+	/* Insert new node between prev and next nodes */	
 	new_node->qprev = prev;
 	prev->qnext = new_node;
 	new_node->qnext = next;

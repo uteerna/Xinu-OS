@@ -14,8 +14,7 @@ pid32	enqueue(
 	)
 {
 	struct qentry *tail; 
-	struct qentry *prev;	
-	//struct qentry *next;	
+	struct qentry *prev;		
 	struct qentry *new_node;	/* Create a new node */
 		
 	new_node = (struct qentry*)getmem(sizeof(struct qentry));	/* Allocating the space to new node */
@@ -25,19 +24,13 @@ pid32	enqueue(
 		return SYSERR;
 	}
 	
+	/* Add a node at the end of the queue before the tail */
 	tail = &queuetab[queuetail(q)];
 	prev = tail->qprev;
 	new_node->qnext = tail;
 	tail->qprev=new_node;
 	new_node->qprev =  prev;
 	prev->qnext = new_node;
-
-	//prev = queuetab[tail->pid].qprev;
-	//queuetab[pid].qnext  = tail;	/* Insert just before tail node	*/
-	//queuetab[pid].qprev = prev;
-	//queuetab[pid].pid = pid;
-	//prev->qnext = &queuetab[pid];
-	//tail->qprev = &queuetab[pid];
 	return pid;
 }
 
@@ -56,9 +49,8 @@ pid32	dequeue(
 	} else if (isempty(q)) {
 		return NULL;
 	}
-
+	
+	/* Remove the node from the front of the queue after the head */
 	pid = getfirst(q);	
-	//queuetab[pid].qprev = NULL;
-	//queuetab[pid].qnext = NULL;
 	return pid;
 }

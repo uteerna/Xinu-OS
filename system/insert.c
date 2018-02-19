@@ -23,26 +23,19 @@ status	insert(
 	}
 
 	curr = &queuetab[queuehead(q)];
-	while (curr != NULL && curr -> qkey >= key) {	/* Checking till key of current is greater then the key*/
+	while (curr != NULL && curr -> qkey >= key) {	/* Checking till key of current is greater then the given key input */
 		curr = curr->qnext;
 	}	
 
-	/* Insert process between curr node and previous node */
-	
+	/* Setting the pid and key of the new node */
 	new_node->pid = pid;
 	new_node->qkey = key;
-
+	
+	/* Insert process between curr node and previous node */
 	prev = curr->qprev;	/* Get previous node	*/
 	new_node->qprev = prev;
 	prev->qnext = new_node;
 	new_node->qnext = curr;
 	curr->qprev = new_node;
-
-	//queuetab[pid].qnext = curr;
-	//queuetab[pid].qprev = prev;
-	//queuetab[pid].qkey = key;
-	//queuetab[pid].pid = pid;
-	//queuetab[prev->pid].qnext = &queuetab[pid];
-	//queuetab[curr->pid].qprev = &queuetab[pid];
 	return OK;
 }

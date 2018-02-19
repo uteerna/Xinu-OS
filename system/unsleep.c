@@ -16,10 +16,6 @@ status	unsleep(
         struct	procent	*prptr;		/* Ptr to process' table entry	*/
 	struct qentry* curr;		/* Current is initially the head of sleepq */
 	struct qentry* pidnext;
-
-        //pid32	pidnext;		/* ID of process on sleep queue	*/
-					/*   that follows the process	*/
-					/*   which is being removed	*/
 	
 	mask = disable();
 
@@ -29,7 +25,6 @@ status	unsleep(
 	}
 
 	/* Verify that candidate process is on the sleep queue */
-
 	prptr = &proctab[pid];
 	if ((prptr->prstate!=PR_SLEEP) && (prptr->prstate!=PR_RECTIM)) {
 		restore(mask);
@@ -37,19 +32,17 @@ status	unsleep(
 	}
 
 	/* Increment delay of next process if such a process exists */
-	
 	curr = &queuetab[sleepq];
 
+	/* Looking for the process with the given pid in the sleep queue */
 	while(pid != curr-> pid && curr != NULL)
 	{
 		curr = curr->qnext;
 	}
 
-	//pidnext = queuetab[pid].qnext;
 	pidnext = curr->qnext;
 
 	if (pidnext->pid < NPROC) {
-		//queuetab[pidnext].qkey += queuetab[pid].qkey;
 		pidnext->qkey += curr->qkey;
 	}
 
