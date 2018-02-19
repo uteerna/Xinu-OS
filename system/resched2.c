@@ -23,13 +23,22 @@ void    resched2(
         }
 		
 	if(next_state < 0 || next_state > 7) {
-		return;
+		return SYSERR;
 	}
 
         /* Point to process table entry for the current (old) process */
 
         ptold = &proctab[currpid];
-	ptold->prstate = next_state;  /* Assigning the next_state to ptold */
+	
+	if(next_state == 1)
+	{
+		ptold->prstate = PR_CURR;  /* Assigning the next_state to ptold */
+	}
+
+	if(next_state == 2)
+	{
+		ptold->prstate = PR_READY;	/* Assigning the next_state to ptold */
+	}
 
         if (next_state == PR_CURR || next_state == PR_READY) {  /* Process remains eligible - Checking if the next_state is CURR or READY */
                 if (ptold->prprio > firstkey(readylist)) {
@@ -64,11 +73,11 @@ void    resched2(
 
 /*------------------------------------------------------------------------
  *
- * *  resched_cnt2  -  Control whether rescheduling is deferred or allowed
+ * *  resched_cntl2  -  Control whether rescheduling is deferred or allowed
  *  *------------------------------------------------------------------------
  *   */
 
-status  resched_cnt2(           /* Assumes interrupts are disabled      */
+status  resched_cntl2(           /* Assumes interrupts are disabled      */
           int32 defer           /* Either DEFER_START or DEFER_STOP     */
         )
 {
