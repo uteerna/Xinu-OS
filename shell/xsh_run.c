@@ -10,7 +10,7 @@ uint32 future_ring(future *in, future *out);
 
 /* Creating a command "run" */
 shellcmd xsh_run(int nargs, char *args[]){
-    future_test(nargs,args);
+  future_test(nargs,args);
 	return SHELL_OK;
 }
 
