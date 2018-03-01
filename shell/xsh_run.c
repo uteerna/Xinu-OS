@@ -7,6 +7,8 @@ uint32 future_ring(future *in, future *out);
 /**
  *  * Test Futures
  *   */
+
+/* Creating a command "run" */
 shellcmd xsh_run(int nargs, char *args[]){
     future_test(nargs,args);
 	return SHELL_OK;
@@ -25,6 +27,7 @@ uint32 future_test(int nargs, char *args[])
   return OK;
 #endif */
 
+  /* Checking the arguments of the command "run", the command run should be followed by future_test -r */
   if (nargs == 3 && strncmp(args[2], "-r", 2) == 0 && strncmp(args[1], "future_test", 13)==0) {
     ring = 1;
     printf("Producer/consumer process ring\n");

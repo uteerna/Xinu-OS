@@ -3,16 +3,17 @@
 
 syscall future_get(future *f, int *value)
 {
-	if(f->flag == FUTURE_EXCLUSIVE)
+	if(f->flag == FUTURE_EXCLUSIVE) /* Check if the mode of operation of the future is FUTURE_EXCLUSIVE, if it is not then return SYSERR */
 	{
-		if(f->state == FUTURE_EMPTY)
+		/* Check if the state of the future is FUTURE_EMPTY, if it is then change the state to FUTURE_WAITING and get the value of the future and store it into *value */
+		if(f->state == FUTURE_EMPTY)	
 		{	
 			f->pid = getpid();
 			f->state = FUTURE_WAITING;
-			intmask mask = disable();
-			proctab[f->pid].prstate = PR_WAIT;
+			intmask mask = disable();	/* Disable interrupts */
+			proctab[f->pid].prstate = PR_WAIT;	/* Change the state of the process to PR_WAIT */
 			resched();
-			restore(mask);
+			restore(mask);	/* Enable interrupts */
 	
 			if(f->state == FUTURE_VALID)
 			{
@@ -23,16 +24,17 @@ syscall future_get(future *f, int *value)
 			}
 		}
 		
+		/* Check if the state of the future is FUTURE_VALID */ 
 		if (f->state == FUTURE_VALID)
 		{
 			intmask mask = disable();
-			f->state = FUTURE_EMPTY;
-			*value = *(f->value);
+			f->state = FUTURE_EMPTY; /* Set the state of the passed future to FUTURE_EMPTY */
+			*value = *(f->value);	/* Set the value of the future in the variable *value */
 			f->pid = NULL;
-			restore(mask);
+			restore(mask);	/* Enable interrupts */
 			return OK;
 		}
-		return SYSERR;
+		return SYSERR; /* If the state of the future is FUTURE_WAITING */
 	}
 	return SYSERR;
 }	 	
