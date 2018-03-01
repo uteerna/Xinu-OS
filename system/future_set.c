@@ -14,7 +14,10 @@ syscall future_set(future *f, int *value)
 			restore(mask);
 			return OK;
 		}	
-		return SYSERR;
+		if (f->state == FUTURE_VALID)
+		{
+			return SYSERR;
+		}
 	}
 	return SYSERR;	
 }

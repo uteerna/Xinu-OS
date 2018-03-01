@@ -26,8 +26,8 @@ syscall future_get(future *f, int *value)
 		if (f->state == FUTURE_VALID)
 		{
 			intmask mask = disable();
-			*value = *(f->value);
 			f->state = FUTURE_EMPTY;
+			*value = *(f->value);
 			f->pid = NULL;
 			restore(mask);
 			return OK;

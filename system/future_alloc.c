@@ -8,6 +8,6 @@ future* future_alloc(int future_flag)
 	nfuture->state = FUTURE_EMPTY;
 	nfuture->flag = future_flag;
 	nfuture->pid = NULL;
-	nfuture->value = NULL; 
+	nfuture->value = NULL;	 
 	return nfuture;
 }	

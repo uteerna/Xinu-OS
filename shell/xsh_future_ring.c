@@ -7,8 +7,8 @@ uint32 future_ring(future *in, future *out);
 /**
  *  * Test Futures
  *   */
-shellcmd xsh_future_ring(int nargs, char *args[]){
-	future_test(nargs,args);
+shellcmd xsh_run(int nargs, char *args[]){
+    future_test(nargs,args);
 	return SHELL_OK;
 }
 
@@ -16,7 +16,7 @@ uint32 future_test(int nargs, char *args[])
 {
   int ring = 0;
   int future_flags = 0;
-  int ring_count = 10;
+  int ring_count = 96;
   int final_val;
   int i;
 
@@ -25,7 +25,7 @@ uint32 future_test(int nargs, char *args[])
   return OK;
 #endif */
 
-  if (nargs == 2 && strncmp(args[1], "-r", 2) == 0) {
+  if (nargs == 3 && strncmp(args[2], "-r", 2) == 0 && strncmp(args[1], "future_test", 13)==0) {
     ring = 1;
     printf("Producer/consumer process ring\n");
   }

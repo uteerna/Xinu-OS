@@ -83,4 +83,4 @@ extern  shellcmd xsh_mmu	(int32, char *[]);
 extern shellcmd xsh_process_ring(int32, char *[]);
 
 /* in file future_ring */
-extern shellcmd xsh_future_ring	(int32, char *[]);
+extern shellcmd xsh_run	(int32, char *[]);
