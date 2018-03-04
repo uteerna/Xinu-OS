@@ -10,11 +10,8 @@ syscall future_get(future *f, int *value)
 		{	
 			f->pid = getpid();
 			f->state = FUTURE_WAITING;
-			intmask mask = disable();	/* Disable interrupts */
 			proctab[f->pid].prstate = PR_WAIT;	/* Change the state of the process to PR_WAIT */
 			resched();
-			restore(mask);	/* Enable interrupts */
-	
 			if(f->state == FUTURE_VALID)
 			{
 				f->state = FUTURE_EMPTY;
@@ -27,11 +24,9 @@ syscall future_get(future *f, int *value)
 		/* Check if the state of the future is FUTURE_VALID */ 
 		if (f->state == FUTURE_VALID)
 		{
-			intmask mask = disable();
 			f->state = FUTURE_EMPTY; /* Set the state of the passed future to FUTURE_EMPTY */
 			*value = *(f->value);	/* Set the value of the future in the variable *value */
 			f->pid = NULL;
-			restore(mask);	/* Enable interrupts */
 			return OK;
 		}
 		return SYSERR; /* If the state of the future is FUTURE_WAITING */

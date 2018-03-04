@@ -10,9 +10,7 @@ syscall future_set(future *f, int *value)
 		{
 			*(f->value) = *value;	/* Set the value passed to *(f->value) */
 			f->state = FUTURE_VALID;	/* Set the value state of the futue to FUTURE_VALID */
-			intmask mask = disable();
 			ready(f->pid);
-			restore(mask);
 			return OK;
 		}	
 		if (f->state == FUTURE_VALID)	/* Check if the state of the future is FUTURE_VALID, if it is then return SYSERR */
