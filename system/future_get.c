@@ -29,7 +29,12 @@ syscall future_get(future *f, int *value)
 			f->pid = NULL;
 			return OK;
 		}
-		return SYSERR; /* If the state of the future is FUTURE_WAITING */
+
+		/* If the state of the future is FUTURE_WAITING, then return SYSERR */
+		if (f->state == FUTURE_WAITING)
+		{
+			return SYSERR; 
+		}
 	}
 	return SYSERR;
 }	 	
