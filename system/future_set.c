@@ -18,5 +18,58 @@ syscall future_set(future *f, int *value)
 			return SYSERR;
 		}
 	}
-	return SYSERR;	
+
+	if(f->flag == FUTURE_SHARED)
+	{
+		if(f->state == FUTURE_EMPTY || f->state == FUTURE_WAITING)
+		{
+			struct queue_entry *curr;
+			curr = &f->get_queue;
+			*(f->value) = *value;
+			f->state = FUTURE_VALID;
+			while(curr != NULL) 
+			{
+				resume(curr->pid);
+				curr = curr->qnext;
+			}
+		}
+		if(f->state == FUTURE_VALID)
+		{
+			return SYSERR;
+		}
+		return OK;
+	}
+
+	if(f->flag == FUTURE_QUEUE)
+	{
+		if(f->get_queue.qnext == NULL)
+		{
+			*(f->value) = *value;
+			struct queue_entry *new_node;
+			struct queue_entry *curr;
+			new_node = (struct queue_entry*)getmem(sizeof(struct queue_entry));
+			pid32 q_pid = getpid();
+			f->state = FUTURE_WAITING;
+			new_node->qnext = NULL;
+			new_node->pid = q_pid;
+			curr = &f->set_queue;
+			while(curr->qnext != NULL)
+			{
+				curr = curr->qnext;
+			}
+			curr->qnext = new_node;
+			*value = new_node->value;
+			suspend(new_node->pid);
+		}
+		else
+		{
+			struct queue_entry *curr;
+			curr = f->get_queue.qnext;
+			curr->value = *value;
+			f->get_queue.qnext = curr->qnext;
+			resume(curr->pid);
+
+		}
+	}
+	return OK;
 }

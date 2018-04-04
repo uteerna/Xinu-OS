@@ -1,3 +1,5 @@
+#include<xinu.h>
+
 #ifndef _FUTURE_H_
 #define _FUTURE_H_
  
@@ -7,7 +9,16 @@
 #define FUTURE_VALID 	  2         
 
 /* modes of operation for future*/
-#define FUTURE_EXCLUSIVE  0	
+#define FUTURE_EXCLUSIVE  1	
+#define FUTURE_SHARED     2	    
+#define FUTURE_QUEUE      3     
+
+struct queue_entry 
+{
+	int32 pid;
+	struct queue_entry *qnext;
+	int32 value;
+};
 
 typedef struct futent
 {
@@ -15,7 +26,9 @@ typedef struct futent
    int flag;		
    int state;         	
    pid32 pid;
-} future;
+   struct queue_entry set_queue;     
+   struct queue_entry get_queue;
+}future;
 
 /* Interface for system call */
 future* future_alloc(int future_flags);

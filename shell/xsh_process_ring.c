@@ -88,8 +88,8 @@ shellcmd xsh_process_ring(int argc, char *argv[])
 		
 		/* Checking if -h or --help is passes as a flag */
 		if ((strncmp("--help", argv[i], 7) == 0) || (strncmp("-h", argv[i], 3) == 0))
-                {
-                      	printf("\nThe arguments have to be passed according to the below format");
+        {
+            printf("\nThe arguments have to be passed according to the below format");
 			printf("\nThe number of processes -p <0-64> default 2");
 			printf("\nThe number of rounds -r <uint32> default 3");
 			printf("\nThe implementation -i <poll or sync> default poll");
