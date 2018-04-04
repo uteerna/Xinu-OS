@@ -82,10 +82,10 @@ uint32 future_test(int nargs, char *args[])
     resume(create(future_prod, 1024, 20, "fprod4", 2, f_queue, 4));
     resume(create(future_prod, 1024, 20, "fprod5", 2, f_queue, 5));
     resume(create(future_prod, 1024, 20, "fprod6", 2, f_queue, 6));
-    sleep(0.5);
+    sleep(1);
     return SHELL_OK;
   }
-  
+
   /* Checking if the number of args is 4 and the arguments passed to run are future_test -f N */
   if (nargs == 4 && strncmp(args[1], "future_test", 13)==0 && strncmp(args[2], "-f", 2) == 0)
   {
@@ -100,7 +100,7 @@ uint32 future_test(int nargs, char *args[])
     }
     for(i=0; i<=array_size; i++)
     {
-      char name = "Fibonacci"+i;
+      char name = "Fibonacci"+(char)i;
       resume(create(ffib, 1024, 20, name, 1, i));
     }
     future_get(fibfut[array_size], &result);

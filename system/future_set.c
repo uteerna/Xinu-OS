@@ -31,8 +31,9 @@ syscall future_set(future *f, int *value)
 			{
 				resume(curr->pid);
 				curr = curr->qnext;
+				freemem(curr, sizeof(struct queue_entry));
 			}
-		}
+		} 
 		if(f->state == FUTURE_VALID)
 		{
 			return SYSERR;
@@ -68,7 +69,7 @@ syscall future_set(future *f, int *value)
 			curr->value = *value;
 			f->get_queue.qnext = curr->qnext;
 			resume(curr->pid);
-
+			freemem(curr, sizeof(struct queue_entry));
 		}
 	}
 	return OK;

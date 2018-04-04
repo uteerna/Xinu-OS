@@ -101,6 +101,7 @@ syscall future_get(future *f, int *value)
 			*value = curr->value;
 			f->set_queue.qnext = curr->qnext;
 			resume(curr->pid);
+			freemem(curr, sizeof(struct queue_entry));
 		}
 	}
 	return OK;
