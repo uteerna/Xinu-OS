@@ -20,10 +20,11 @@ const	struct	cmdent	cmdtab[] = {
 	{"memdump",	FALSE,	xsh_memdump},
 	{"memstat",	FALSE,	xsh_memstat},
 	{"ps",		FALSE,	xsh_ps},
-	{"sleep",	FALSE,	xsh_sleep},
+	{"sleep",	FALSE,	xsh_sleep},	
 	{"uptime",	FALSE,	xsh_uptime},
 	{"hello",	FALSE,  xsh_hello},
 	{"process_ring",FALSE,  xsh_process_ring},
+	{"fstest",  FALSE,  xsh_fstest},
 #ifdef GPIO
 	{"led",         FALSE,  xsh_led},
 #endif

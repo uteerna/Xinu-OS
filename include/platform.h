@@ -13,7 +13,7 @@
 /** Maximum length of platform name and family strings, including the
  * null-terminator.  */
 #define PLT_STRMAX 18
-
+#define FS 1
 /**
  * Various platform-specific parameters filled in at boot time by
  * platforminit().  When platforminit() is called this structure will initially
