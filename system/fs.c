@@ -79,8 +79,7 @@ fs_get_inode_by_num(int dev, int inode_number, struct inode *in) {
 
 }
 
-int
-fs_put_inode_by_num(int dev, int inode_number, struct inode *in) {
+int fs_put_inode_by_num(int dev, int inode_number, struct inode *in) {
   int bl, inn;
 
   if (dev != 0) {
